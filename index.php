@@ -1,58 +1,51 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL); 
-class Tree {
-public $x;
-public $l ;
-public $r ;
-public $max ;
-
-	public function __construct($x)
-	{
-		$this->x=$x;
-		$this->l=NULL;
-		$this->r=NULL;
+<?php 
+function solution(Int $n){
+	$a= str_split($n);
+	$p=count($a);
+	$q=1;
+	for ($i=0; $i < 9 ; $i++) { 
+		$q*=fact(substr_count($n,$i));
 	}
-	public function draw($s='')
-	{
-		echo $s.='_';
-		echo $this->x;	
-		echo '<br>';	
-		if ($this->l)
-		$this->l->draw($s);
-		if ($this->r)
-		$this->r->draw($s);
-	}
-	public function maxdis(array $arr=[],$t=NULL)
-	{
-		if($t==NULL)
-		return count($arr);
-
-		if(!in_array($t->x,$arr))
-		{
-			array_push($arr, $t->x);
-		}
-
-		return max($this->maxdis($arr,$t->l),$this->maxdis($arr,$t->r));
-		
-	}
-
-	public function getmaxdis($value='')
-	{
-		return $this->maxdis([],$this);
-	}
+	echo fact($p)/$q;
 }
-$t=new Tree(4);
-$t->l=new Tree(5);
-$t->l->l=new Tree(4);
-$t->l->l->l=new Tree(5);
-$t->r=new Tree(6);
-$t->r->l=new Tree(1);
-$t->r->r=new Tree(6);
-$t->r->r->r=new Tree(2);
-$t->r->r->r->r=new Tree(3);
-// $t->draw();
-var_dump($t->getmaxdis());
-
+function fact($nbr) 
+{ 
+   if($nbr === 0) // condition d'arret 
+      return 1;  
+  	else 
+      return $nbr*fact($nbr-1); 
+}  
+solution(1123);
+?>
+<script type="text/javascript">
+    function factorial(n) {
+      if (n <=1)
+        return 1;
+      return n * factorial(n-1);
+    }
+    
+    function getPermutations(number) {
+      var n = number.toString().split('').length;
+      var r = {};
+      number.toString().split('').forEach(function(digit){
+          r[digit] = r[digit] || 0;
+          r[digit] += 1;
+      });
+      
+      var z = number.toString().split('').reduce(function(count, digit) {
+        return (digit === '0') ? count + 1 : count;
+      }, 0);
+      
+      var denominator = Object.keys(r).map(function (key) { return r[key]; }).reduce(function(result, curr) {
+        return result * factorial(curr);
+      }, 1);
+      
+      // console.log(n, r, z);
+      return (n - z) * factorial(n - 1) / denominator;
+    
+    }
+    
+    var result = getPermutations(1123);
+    console.log(result);
+    </script>
 
